@@ -5,12 +5,14 @@ from django.http import HttpResponse
 
 # Главная страница
 def index(request):
-    return HttpResponse('Главная страница')
+    template = 'posts/index.html'
+    return render(request, template)
 
 
 # Страница со списком постов
 def group_posts(request):
-    return HttpResponse('Список постов')
+    template = 'posts/group_posts.html'
+    return render(request, template)
 
 
 # Страница с информацией об одном посте;
