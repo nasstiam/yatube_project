@@ -6,13 +6,23 @@ from django.http import HttpResponse
 # Главная страница
 def index(request):
     template = 'posts/index.html'
-    return render(request, template)
+    title = 'Это главная страница проекта Yatube'
+    context = {
+        # В словарь можно передать переменную
+        'title': title,
+        # А можно сразу записать значение в словарь. Но обычно так не делают
+    }
+    return render(request, template, context)
 
 
 # Страница со списком постов
 def group_posts(request):
     template = 'posts/group_posts.html'
-    return render(request, template)
+    title = 'Здесь будет информация о группах проекта Yatube'
+    context = {
+        'title': title,
+    }
+    return render(request, template, context)
 
 
 # Страница с информацией об одном посте;
