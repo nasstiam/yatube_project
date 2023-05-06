@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, HttpResponse
 # Импортируем модель, чтобы обратиться к ней
 from .models import Post, Group
 
+
 def index(request):
     # Одна строка вместо тысячи слов на SQL:
     # в переменную posts будет сохранена выборка из 10 объектов модели Post,
@@ -18,7 +19,7 @@ def index(request):
 # Страница со списком постов
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    template = 'posts/group_posts.html'
+    template = 'posts/group_lists.html'
     posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]
     context = {
         'group': group,
@@ -29,5 +30,5 @@ def group_posts(request, slug):
 
 # Страница с информацией об одном посте;
 # view-функция принимает параметр pk из path()
-def group_posts_detail(request, pk):
-    return HttpResponse(f'Номер поста {pk}')
+# def group_posts_detail(request, pk):
+#     return HttpResponse(f'Номер поста {pk}')
