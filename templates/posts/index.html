@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{ title }}
+Последние обновления на сайте
 {% endblock %}
 
 {% block content %}
-
-
-      {% for post in posts %}
+<div class="container">
+  <h1>Последние обновления на сайте</h1>
+     {% for post in posts %}
         <ul>
           <li>
             Автор: {{ post.author.get_full_name }}
@@ -18,10 +18,11 @@
         </ul>
         <p>{{ post.text }}</p>
         {% if post.group %}
-        <a href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>
+        <a href="{% url 'posts:group_lists' post.group.slug %}">все записи группы</a>
         {% endif %}
         {% if not forloop.last %}<hr>{% endif %}
-      {% endfor %}
+     {% endfor %}
+</div>
 
 {% endblock %}
 

@@ -19,7 +19,7 @@ def index(request):
 # Страница со списком постов
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    template = 'posts/group_lists.html'
+    template = 'posts/group_posts.html'
     posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]
     context = {
         'group': group,
