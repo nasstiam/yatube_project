@@ -24,5 +24,4 @@ app_name = 'posts'
 urlpatterns = [
     path('', views.index, name='index'),
     path('group_posts/<slug>/', views.group_posts, name='group_lists'),
-    # path('group_posts/', views.group_posts, name='group_posts')
 ]
