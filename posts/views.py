@@ -26,9 +26,3 @@ def group_posts(request, slug):
         'posts': posts,
     }
     return render(request, template, context)
-
-
-# Страница с информацией об одном посте;
-# view-функция принимает параметр pk из path()
-# def group_posts_detail(request, pk):
-#     return HttpResponse(f'Номер поста {pk}')
