@@ -9,22 +9,31 @@ class Group(models.Model):
     slug = models.SlugField(unique=True)
     description = models.TextField(null=True, blank=True)
 
-    def __str__(self):
-        return self.title
-
 
 class Post(models.Model):
 
-    text = models.TextField()
-    pub_date = models.DateTimeField(auto_now_add=True)
+    objects = None
+    text = models.TextField(verbose_name='Текст')
+    pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts'
+        related_name='posts',
+        verbose_name='Автор'
     )
     group = models.ForeignKey(
         Group,
         blank=True,
         null=True,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name="Группа"
+
     )
+
+
+    def __str__(self):
+        # выводим текст поста
+        return self.text
+
+
+

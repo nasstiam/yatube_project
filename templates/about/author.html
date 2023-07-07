@@ -1,0 +1,22 @@
+<!-- templates/about/author.html -->
+{% extends 'base.html' %}
+{% load static%}
+
+{% block title %}
+Об авторе
+{% endblock %}
+
+{% block content %}
+<html>
+  <head>
+    <title>Об авторе</title>
+  </head>
+  <body>
+      <div class="container py-5">
+        <h1>Автор: Настя М</h1>
+        <p>какая-то информация</p>
+        <img src="{% static 'img/panda.jpg' %}">
+      </div>
+  </body>
+</html>
+{% endblock %}
