@@ -1,11 +1,9 @@
 # posts/views.py
 from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
 
-from .forms import PostForm, EditForm
+from .forms import PostForm
 from .models import Post, Group, User
 from django.core.paginator import Paginator
-from django.views.generic.base import TemplateView
-from django.views.generic import UpdateView
 
 
 def index(request):
@@ -71,7 +69,7 @@ def post_create(request):
                 new_post = form.save(commit=False)
                 new_post.author_id = request.user.id
                 new_post.save()
-                return redirect('posts:profile', request.user.username)
+                return redirect('posts:index')
             except Exception as e:
                 print(e)
                 form.add_error(None, 'Ошибка добавления поста')
@@ -92,7 +90,7 @@ def post_edit(request, post_id):
         if form.is_valid():
             try:
                 form.save()
-                return redirect('posts:profile', request.user.username)
+                return redirect('posts:index')
             except Exception as e:
                 form.add_error(None, 'Ошибка добавления поста')
     else:
