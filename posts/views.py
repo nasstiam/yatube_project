@@ -5,10 +5,10 @@ from .forms import PostForm
 from .models import Post, Group, User
 from django.core.paginator import Paginator
 
-
+post_per_page = 10
 def index(request):
     post_list = Post.objects.all().order_by('-pub_date')
-    paginator = Paginator(post_list, 10)
+    paginator = Paginator(post_list, post_per_page)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -21,7 +21,7 @@ def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     template = 'posts/group_posts.html'
     posts = Post.objects.filter(group=group).order_by('-pub_date')
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, post_per_page)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -35,7 +35,7 @@ def profile(request, username):
     user = get_object_or_404(User, username=username)
     template = 'posts/profile.html'
     posts = Post.objects.filter(author=user).order_by('-pub_date')
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, post_per_page)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -49,14 +49,11 @@ def profile(request, username):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     template = 'posts/post_detail.html'
-    posts = Post.objects.filter(text=post)[0]
-
-    all_author_posts = Post.objects.filter(author=posts.author)
+    all_author_posts = Post.objects.filter(author=post.author)
 
     context = {
-        'posts': posts,
         'post': post,
-        'all_author_posts': all_author_posts
+        'all_author_posts': all_author_posts.count
     }
     return render(request, template, context)
 
