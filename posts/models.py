@@ -9,6 +9,9 @@ class Group(models.Model):
     slug = models.SlugField(unique=True)
     description = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.title}'
+
 
 class Post(models.Model):
 
@@ -33,7 +36,7 @@ class Post(models.Model):
 
     def __str__(self):
         # выводим текст поста
-        return self.text
+        return f'{self.text[:15]}'
 
 
 

@@ -16,7 +16,6 @@
                 <div class="card-body">
                     <form action="{% url 'posts:post_edit' post_id=post.id%}" method="POST">
                     {% csrf_token%}
-
                     <li class="list-group-item">
                     Текст: {{ form.text }}
                     </li>
@@ -27,7 +26,6 @@
                       Сохранить
                     </button>
                     </form>
-
                 </div>
             </div>
             </div>

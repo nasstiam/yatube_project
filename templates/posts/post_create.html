@@ -12,17 +12,12 @@
                 {{title}}
               </div>
               <div class="card-body">
-
                 <form action="{% url 'posts:post_create' %}" method="POST">
                   {% csrf_token %}
-
                   {% for f in form %}
                     <p><label class="form-label">{{f.label}}: </label>{{f}}</p>
                   <div class="form-error">{{ f.errors}}</div>
-
                   {% endfor %}
-
-
                   <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
                       Сохранить

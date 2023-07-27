@@ -59,25 +59,30 @@ def post_detail(request, post_id):
 
 
 def post_create(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            try:
-                new_post = form.save(commit=False)
-                new_post.author_id = request.user.id
-                new_post.save()
-                return redirect('posts:index')
-            except Exception as e:
-                print(e)
-                form.add_error(None, 'Ошибка добавления поста')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PostForm(request.POST)
+            if form.is_valid():
+                try:
+                    new_post = form.save(commit=False)
+                    new_post.author_id = request.user.id
+                    new_post.save()
+                    print(request.user.username)
+                    return redirect('posts:profile', username=request.user.username)
+                except Exception as e:
+                    print(e)
+                    form.add_error(None, 'Ошибка добавления поста')
+        else:
+            form = PostForm()
+        template = 'posts/post_create.html'
+        context = {
+            'form': form,
+            'title': 'Новый пост'
+        }
+        return render(request, template, context)
     else:
-        form = PostForm()
-    template = 'posts/post_create.html'
-    context = {
-        'form': form,
-        'title': 'Новый пост'
-    }
-    return render(request, template, context)
+        template = 'users/login.html'
+        return render(request, template)
 
 
 def post_edit(request, post_id):
@@ -87,7 +92,7 @@ def post_edit(request, post_id):
         if form.is_valid():
             try:
                 form.save()
-                return redirect('posts:index')
+                return redirect('posts:profile', username=request.user.username)
             except Exception as e:
                 form.add_error(None, 'Ошибка добавления поста')
     else:

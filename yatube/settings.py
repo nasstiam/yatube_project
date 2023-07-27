@@ -25,7 +25,12 @@ SECRET_KEY = 'i0(*lqn)e-l6*yt!d51*jh%2ndej$=si5l^m3slds5eb=_chs-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '[::1]',
+    'testserver',
+]
 
 
 # Application definition
@@ -39,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
-    'core.apps.CoreConfig'
+    'core.apps.CoreConfig',
+    'about.apps.AboutConfig'
 ]
 
 MIDDLEWARE = [
@@ -132,6 +138,6 @@ LOGIN_REDIRECT_URL = 'posts:index'
 
 
 #  подключаем движок filebased.EmailBackend
-EMAIL_BACKEND = 'django.core.mail.backends.file-based.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 # указываем директорию, в которую будут складываться файлы писем
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
