@@ -152,16 +152,16 @@ class TestGroupView:
     @pytest.mark.django_db(transaction=True)
     def test_group_view(self, client, post_with_group):
         try:
-            response = client.get(f'/group_posts/{post_with_group.group.slug}')
+            response = client.get(f'/group/{post_with_group.group.slug}')
         except Exception as e:
-            assert False, f'''Страница `/group_posts/<slug>/` работает неправильно. Ошибка: `{e}`'''
+            assert False, f'''Страница `/group/<slug>/` работает неправильно. Ошибка: `{e}`'''
         if response.status_code in (301, 302):
-            response = client.get(f'/group_posts/{post_with_group.group.slug}/')
+            response = client.get(f'/group/{post_with_group.group.slug}/')
         if response.status_code == 404:
-            assert False, 'Страница `/group_posts/<slug>/` не найдена, проверьте этот адрес в *urls.py*'
+            assert False, 'Страница `/group/<slug>/` не найдена, проверьте этот адрес в *urls.py*'
 
         if response.status_code != 200:
-            assert False, 'Страница `/group_posts/<slug>/` работает неправильно.'
+            assert False, 'Страница `/group/<slug>/` работает неправильно.'
         group = post_with_group.group
         html = response.content.decode()
 
@@ -172,10 +172,10 @@ class TestGroupView:
         assert search_refind(r'{%\s*endfor\s*%}', html_template), \
             'Отредактируйте HTML-шаблон, не найден тег закрытия цикла'
 
-        # assert re.search(
-        #     r'<\s*title\s*>\s*Записи\s+сообщества\s+' + group.title + r'\s+\|\s+Yatube\s*<\s*\/title\s*>',
-        #     html
-        # ), 'Отредактируйте HTML-шаблон, не найдено название страницы `<title>Записи сообщества {{ название_группы }} | Yatube</title>`'
+        assert re.search(
+            r'<\s*title\s*>\s*Записи\s+сообщества\s+' + group.title + r'\s+\|\s+Yatube\s*<\s*\/title\s*>',
+            html
+        ), 'Отредактируйте HTML-шаблон, не найдено название страницы `<title>Записи сообщества {{ название_группы }} | Yatube</title>`'
         assert re.search(
             r'<\s*h1\s*>\s*' + group.title + r'\s*<\s*\/h1\s*>',
             html

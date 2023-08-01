@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-{{ title }}
+Записи сообщества {{ group.title }} | Yatube
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
         <p>
           {{ group.description }}
         </p>
-        {% for post in posts %}
+        {% for post in page_obj %}
         <article>
           <ul>
             <li>
@@ -24,11 +24,19 @@
           <p>
             {{ post.text }}
           </p>
+
+          <a href="{% url 'posts:post_detail' post_id=post.id %}">подробная информация </a> <br>
+          {% if post.group %}
+          <a href="{% url 'posts:group_lists' post.group.slug %}">все записи группы</a>
+          {% endif %}
+
         </article>
 
         <!-- под последним постом нет линии -->
         {% if not forloop.last %}<hr>{% endif %}
         {% endfor %}
+        {% include 'posts/paginator.html' %}
       </div>
+
 
 {% endblock %}
