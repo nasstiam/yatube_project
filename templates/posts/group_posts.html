@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Записи сообщества {{ group.title }} | Yatube
+{{ title }}
 {% endblock %}
 
 {% block content %}
@@ -22,7 +22,7 @@
             </li>
           </ul>
           <p>
-            {{ post.text }}
+            {{ post.text }} <br>
           </p>
 
           <a href="{% url 'posts:post_detail' post_id=post.id %}">подробная информация </a> <br>
