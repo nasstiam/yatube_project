@@ -1,6 +1,5 @@
 # posts/views.py
 from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
-from django.urls import reverse_lazy
 
 from .forms import PostForm
 from .models import Post, Group, User
@@ -14,8 +13,6 @@ def index(request):
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
-        'paginator': paginator,
-
     }
     return render(request, 'posts/index.html', context)
 
@@ -29,9 +26,7 @@ def group_posts(request, slug):
     page_obj = paginator.get_page(page_number)
     context = {
         'group': group,
-        'page_obj': page_obj,
-        'paginator': paginator,
-        'page': page_number
+        'page_obj': page_obj
     }
     return render(request, template, context)
 
@@ -46,9 +41,7 @@ def profile(request, username):
     context = {
         'user': user,
         'page_obj': page_obj,
-        'posts': posts,
-        'author': user,
-        'paginator': paginator
+        'posts': posts
     }
     return render(request, template, context)
 
@@ -60,8 +53,7 @@ def post_detail(request, post_id):
 
     context = {
         'post': post,
-        'all_author_posts': all_author_posts.count,
-        'author': post.author
+        'all_author_posts': all_author_posts.count
     }
     return render(request, template, context)
 
@@ -69,15 +61,16 @@ def post_detail(request, post_id):
 def post_create(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-
             form = PostForm(request.POST)
             if form.is_valid():
                 try:
                     new_post = form.save(commit=False)
                     new_post.author_id = request.user.id
                     new_post.save()
+                    print(request.user.username)
                     return redirect('posts:profile', username=request.user.username)
                 except Exception as e:
+                    print(e)
                     form.add_error(None, 'Ошибка добавления поста')
         else:
             form = PostForm()
