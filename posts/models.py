@@ -5,6 +5,7 @@ User = get_user_model()
 
 
 class Group(models.Model):
+    objects = None
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     description = models.TextField(null=True, blank=True)
@@ -16,7 +17,7 @@ class Group(models.Model):
 class Post(models.Model):
 
     objects = None
-    text = models.TextField(verbose_name='Текст')
+    text = models.TextField(verbose_name='Текст', help_text='Введите текст поста')
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     author = models.ForeignKey(
         User,
@@ -30,7 +31,6 @@ class Post(models.Model):
         null=True,
         on_delete=models.CASCADE,
         verbose_name="Группа"
-
     )
 
 
