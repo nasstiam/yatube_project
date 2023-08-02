@@ -33,3 +33,17 @@ class PostModelTest(TestCase):
 
         post1 = PostModelTest.post
         self.assertEqual(str(post1), 'Тестовый пост п')
+
+    def test_verbose_name(self):
+        """verbose_name в полях совпадает с ожидаемым."""
+        post = PostModelTest.postp
+        field_verboses = {
+            'text': 'Текст',
+            'pub_date': 'Дата публикации',
+            'author': 'Автор',
+            'group': 'Группа'
+        }
+        for field, expected_value in field_verboses.items():
+            with self.subTest(field=field):
+                self.assertEqual(
+                    post._meta.get_field(field).verbose_name, expected_value)
