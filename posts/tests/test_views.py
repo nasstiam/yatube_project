@@ -124,40 +124,30 @@ class PostsViewsTest(TestCase):
         """Шаблон post_detail сформирован с правильным контекстом."""
         response = self.authorized_client.get(reverse('posts:post_detail', kwargs={'post_id': 10}))
         post_10 = response.context.get('post')
-        post_fields_for_test = {
-        'Text 9': post_10.text,
-        'name1': post_10.author.username,
-        'group1': post_10.group.title
-        }
 
-        for value, expected in post_fields_for_test.items():
-            self.assertEquals(value, expected)
+        self.assertEquals('Text 9', post_10.text)
+        self.assertEquals('name1', post_10.author.username)
+        self.assertEquals('group1', post_10.group.title)
+
 
     def test_post_create_page_show_correct_context(self):
         """Шаблон post_create сформирован с правильным контекстом."""
         response_create = self.authorized_client.get(reverse('posts:post_create'))
-        post_create_fields_for_test = {
-        'text': forms.fields.CharField,
-        'group': forms.models.ModelChoiceField,
-        }
 
-        for value, expected in post_create_fields_for_test.items():
-            with self.subTest(value=value):
-                form_field_create = response_create.context.get('form').fields.get(value)
-                self.assertIsInstance(form_field_create, expected)
+        form_field_edit_text = response_create.context.get('form').fields.get('text')
+        form_field_edit_group = response_create.context.get('form').fields.get('group')
+        self.assertIsInstance(form_field_edit_text, forms.fields.CharField)
+        self.assertIsInstance(form_field_edit_group, forms.models.ModelChoiceField)
 
     def test_post_edit_page_show_correct_context(self):
         """Шаблон post_edit сформирован с правильным контекстом."""
         response_edit = self.authorized_client.get(reverse('posts:post_edit', kwargs={'post_id': 10}))
-        post_edit_fields_for_test = {
-        'text': forms.fields.CharField,
-        'group': forms.models.ModelChoiceField,
-        }
 
-        for value, expected in post_edit_fields_for_test.items():
-            with self.subTest(value=value):
-                form_field_edit = response_edit.context.get('form').fields.get(value)
-                self.assertIsInstance(form_field_edit, expected)
+        form_field_edit_text = response_edit.context.get('form').fields.get('text')
+        form_field_edit_group = response_edit.context.get('form').fields.get('group')
+        self.assertIsInstance(form_field_edit_text, forms.fields.CharField)
+        self.assertIsInstance(form_field_edit_group, forms.models.ModelChoiceField)
+
 
     def test_post_with_group_correct_pages(self):
         """если указать группу поста, то пост появляется на странице group_lists, index, profile, и не появляется на
@@ -173,7 +163,7 @@ class PostsViewsTest(TestCase):
         )
         self.assertEquals(Post.objects.count(), posts_number + 1)
         self.assertEquals(Post.objects.filter(group=PostsViewsTest.group2).count(), posts_number_group2 + 1)
-        self.assertNotEquals(Post.objects.filter(group=PostsViewsTest.group1).count(), posts_number_group1 + 1)
+        self.assertEquals(Post.objects.filter(group=PostsViewsTest.group1).count(), posts_number_group1)
         self.assertEquals(Post.objects.filter(author=PostsViewsTest.user2).count(), posts_number_user2 + 1)
 
 
