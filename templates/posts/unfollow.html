@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Отписаться{% endblock %}
+{% block content %}
+  <h3>Отписаться</h3>
+  <p>Вы больше не подписаны на пользователя <a href="{% url 'posts:profile' username=author.username %}">{{author.username}}</a></p>
+
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Подписаться{% endblock %}
+{% block content %}
+  <h3>Подписаться</h3>
+  <p>Вы подписаны на пользователя <a href="{% url 'posts:profile' username=author.username %}">{{author.username}}</a></p>
+
+{% endblock %}

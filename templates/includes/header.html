@@ -30,7 +30,7 @@
           <a class="nav-link link-light {% if view_name  == 'users:logged_out' %}active{% endif %}" href="{% url 'users:logout' %}">Выйти</a>
         </li>
         <li>
-          Пользователь: {{ user.username }}
+          Пользователь: {{ authorised_user }}
         </li>
         {% else %}
         <li class="nav-item">
