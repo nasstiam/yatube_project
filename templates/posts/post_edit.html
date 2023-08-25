@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+{% load thumbnail %}
+
 {% block title %}
 Редактировать запись
 {% endblock %}
 
+
 {% block content %}
-{% if user.is_authenticated and user.id == post.author.id %}
+
 
        <div class="container py-5">
         <div class="row justify-content-center">
@@ -14,14 +17,12 @@
                 Редактировать запись
               </div>
                 <div class="card-body">
-                    <form action="{% url 'posts:post_edit' post_id=post.id%}" method="POST">
-                    {% csrf_token%}
-                    <li class="list-group-item">
-                    Текст: {{ form.text }}
-                    </li>
-                    <li class="list-group-item">
-                    Группа: {{ form.group}}
-                    </li>
+                    <form action="{% url 'posts:post_edit' post_id=post.id%}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for f in form %}
+                    <p><label class="form-label">{{f.label}}: </label>{{f}}</p>
+                    <div class="form-error">{{ f.errors}}</div>
+                    {% endfor %}
                     <button type="submit" class="btn btn-primary">
                       Сохранить
                     </button>
@@ -31,5 +32,5 @@
             </div>
           </div>
         </div>
-{% endif %}
+
 {% endblock %}

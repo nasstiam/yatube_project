@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Список подписок{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h3>Все подписки пользователя {{ author.username }}</h3>
+<article>
+    {% if follower %}
+            {% for f in follower %}
+            <li>
+              {{ f.user.username }}
+            </li>
+            {% endfor %}
+    {% else %}
+            <ul>
+              Нет подписок
+            </ul>
+    {% endif %}
+</article>
+</div>
+{% endblock %}
