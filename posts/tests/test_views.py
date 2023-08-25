@@ -1,4 +1,5 @@
 # deals/tests/test_views.py
+import os
 
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
@@ -164,7 +165,7 @@ class PostsViewsTest(TestCase):
             author=PostsViewsTest.user2,
             text='Text 14',
             group=PostsViewsTest.group2,
-            image=SimpleUploadedFile(name='img1.jpg', content=open(r'C:\Users\Anastasia\Downloads\img1.jpg', 'rb').read(), content_type='image/jpeg')
+            image=SimpleUploadedFile(name='logo.png', content=open(os.getcwd()+'/posts/tests/img/logo.png', 'rb').read(), content_type='image/png')
         )
         # при отправке поcта с группой\картинкой через форму PostForm создаётся запись в базе данных
         # на странице group_lists, index, profile
@@ -249,7 +250,7 @@ class PostsViewsTest(TestCase):
         self.assertTrue(Post.objects.filter(author=following_user))
         response = self.authorized_client.get(reverse('posts:follow_index'))
         post_list = response.context.get('page_obj')
-        self.assertQuerysetEqual(post_list, Post.objects.filter(author=following_user).order_by('-created')[0:10], transform=lambda x: x)
+        self.assertQuerysetEqual(post_list, Post.objects.filter(author=following_user).order_by('-created')[:10], transform=lambda x: x)
         # у пользователя без подписок нет постов на странице follow_index
         response_2 = authorized_client_2.get(reverse('posts:follow_index'))
         self.assertEqual(len(response_2.context.get("page_obj").object_list), 0)
