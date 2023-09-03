@@ -184,9 +184,7 @@ def follow_index(request):
 def profile_follow(request, username):
     authorised_user = request.user
     author = get_object_or_404(User, username=username)
-    follow = Follow.objects.filter(author=author, user=authorised_user)
-    if len(follow) == 0 and author != request.user:
-        follow = Follow.objects.get_or_create(user=authorised_user, author=author)
+    follow = Follow.objects.get_or_create(user=authorised_user, author=author) if author != request.user else Follow.objects.none()
     context = {
         'authorised_user': authorised_user,
         'author': author,
@@ -199,8 +197,9 @@ def profile_unfollow(request, username):
     # Дизлайк, отписка
     authorised_user = request.user
     author = get_object_or_404(User, username=username)
-    if len(Follow.objects.filter(user=authorised_user, author=author)) > 0:
-        Follow.objects.filter(user=authorised_user, author=author).delete()
+    follow = Follow.objects.filter(user=authorised_user, author=author)
+    if len(follow) > 0:
+        follow.delete()
     context = {
         'authorised_user': authorised_user,
         'author': author,
@@ -232,3 +231,6 @@ def profile_follower_list(request, username):
         'follower': follow,
      }
     return render(request, 'posts/follower_list.html', context)
+
+
+
