@@ -11,6 +11,7 @@ post_per_page = 10
 
 @cache_page(60 * 15)
 def index(request):
+    """view function for homepage"""
     authorised_user = request.user
     post_list = Post.objects.all().order_by('-created')
     paginator = Paginator(post_list, post_per_page)
@@ -24,6 +25,7 @@ def index(request):
     return render(request, 'posts/index.html', context)
 
 def group_posts(request, slug):
+    """view function for posts of the selected group"""
     authorised_user = request.user
     group = get_object_or_404(Group, slug=slug)
     template = 'posts/group_posts.html'
@@ -42,6 +44,7 @@ def group_posts(request, slug):
 
 
 def profile(request, username):
+    """view function for author's profile"""
     authorised_user = request.user
     author = get_object_or_404(User, username=username)
     template = 'posts/profile.html'
@@ -71,6 +74,7 @@ def profile(request, username):
 
 
 def post_detail(request, post_id):
+    """view function for detailed post information"""
     authorised_user = request.user
     post = get_object_or_404(Post, id=post_id)
     template = 'posts/post_detail.html'
@@ -91,6 +95,7 @@ def post_detail(request, post_id):
 
 @login_required()
 def post_create(request):
+    """view function for creating new post"""
     authorised_user = request.user
     if request.method == 'POST':
         form = PostForm(request.POST, files=request.FILES or None)
@@ -114,6 +119,7 @@ def post_create(request):
 
 @login_required()
 def post_edit(request, post_id):
+    """view function for editing selected post"""
     authorised_user = request.user
     post = get_object_or_404(Post, id=post_id)
     if authorised_user.id == post.author.id:
@@ -140,6 +146,7 @@ def post_edit(request, post_id):
 
 @login_required
 def add_comment(request, post_id):
+    """view function for adding a comment for the selected post"""
     authorised_user = request.user
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
@@ -165,9 +172,9 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
-    # информация о текущем пользователе доступна в переменной request.user
+    """view function for a list of authors the user has followed to"""
     authorised_user = request.user
-    # ищем автора, у которого в following(в подписчиках) есть пользователь authorised_user
+    # looking for an author who has the user authorized_user in the following (in subscribers)
     post_list = Post.objects.filter(author__following__user=authorised_user).order_by('-created')
     paginator = Paginator(post_list, post_per_page)
     page_number = request.GET.get('page')
@@ -182,6 +189,7 @@ def follow_index(request):
 
 @login_required
 def profile_follow(request, username):
+    """shows confirmation when the user is following for the author"""
     authorised_user = request.user
     author = get_object_or_404(User, username=username)
     follow = Follow.objects.get_or_create(user=authorised_user, author=author) if author != request.user else Follow.objects.none()
@@ -194,6 +202,7 @@ def profile_follow(request, username):
 
 @login_required
 def profile_unfollow(request, username):
+    """shows confirmation when the user is unfollowing for the author"""
     # Дизлайк, отписка
     authorised_user = request.user
     author = get_object_or_404(User, username=username)
@@ -208,7 +217,7 @@ def profile_unfollow(request, username):
 
 @login_required
 def profile_following_list(request, username):
-    # following = подписки
+    """view function for seeing all following of the author"""
     authorised_user = request.user
     author = get_object_or_404(User, username=username)
     follow = Follow.objects.filter(author=author)
@@ -221,7 +230,7 @@ def profile_following_list(request, username):
 
 @login_required
 def profile_follower_list(request, username):
-    # follower = подписчики
+    """view function for seeing all followers of the author"""
     authorised_user = request.user
     author = get_object_or_404(User, username=username)
     follow = Follow.objects.filter(user=author)

@@ -17,7 +17,6 @@ class Group(models.Model):
 
 
 class Post(CreatedModel):
-
     objects = None
     text = models.TextField(verbose_name='Текст', help_text='Введите текст поста')
     author = models.ForeignKey(

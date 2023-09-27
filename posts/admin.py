@@ -3,13 +3,13 @@ from django.contrib import admin
 from .models import Post, Group
 
 class PostAdmin(admin.ModelAdmin):
-    # Перечисляем поля, которые должны отображаться в админке
+    # we list the fields that should be displayed in admin panel
     list_display = ('pk', 'text', 'created', 'author', 'group')
-    # Добавляем интерфейс для поиска по тексту постов
+    # option to search by text field
     search_fields = ('text',)
-    # Добавляем возможность фильтрации по дате
+    # filter posts by date
     list_filter = ('created',)
-    empty_value_display = '-пусто-'
+    empty_value_display = '-empty-'
     list_editable = ('group',)
 
 
