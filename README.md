@@ -2,10 +2,11 @@
 
 ### Description:
 
-Yatube - social network for publishing posts.
-Designed by MVT architecture. Uses post pagination and caching. Registration
-is implemented with data verification, password change and recovery via mail.
-Tests are written that check the operation of the service.
+Yatube - social network for publishing posts. authenticated users can publish posts, leave comments 
+and follow other authors. Users can see all posts of the social network and only posts of followed authors, 
+as well as author's Profile page or only posts of a specific group.
+Designed by MVT architecture. Uses post pagination and caching. Registration is implemented with data verification, 
+password change and recovery via mail. Tests are written that check the operation of the service.
 
 ### Installation instructions:
 

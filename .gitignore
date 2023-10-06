@@ -134,9 +134,12 @@ dmypy.json
 
 .idea/
 
-
+# coverage
 htmlcov/
 .coverage
 .coverage.*
 coverage.xml
 *.coverc
+
+# media
+media/
